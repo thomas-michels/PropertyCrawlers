@@ -6,6 +6,8 @@ from app.core.entities import RawProperty
 from app.core.configs import get_logger, get_environment
 from datetime import datetime
 from app.core.dependencies.worker import KombuProducer
+from time import sleep
+from random import randint
 import requests
 import pendulum
 
@@ -26,6 +28,7 @@ class ZapImoveisCrawlerCharacteristics(Crawler):
 
             data = message.payload.get("data")
             if not data:
+                sleep(randint(5, 10))
                 response = requests.get(url=url)
 
                 if response.status_code > 300:

@@ -26,11 +26,14 @@ class PortalImoveisCrawlerCharacteristics(Crawler):
         try:
             sleep(randint(2, 7))
             url = message.payload["property_url"]
-            code = message.payload["code"]
             company = message.payload["company"]
 
             page = requests.get(url=url)
             page.raise_for_status()
+
+            code = message.payload.get("code")
+            if not code:
+                code = int(url.split("/")[-1])
 
             html = page.text
 
