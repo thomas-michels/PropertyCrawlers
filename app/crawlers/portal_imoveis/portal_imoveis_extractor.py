@@ -35,7 +35,7 @@ def start_portal_imoveis_extractor():
     with RawPGConnection() as conn:
 
         for i in range(1, pages + 1):
-            time_sleep = randint(5, 15)
+            time_sleep = randint(5, 10)
             _logger.info(f"Sleeping: {time_sleep}")
             sleep(time_sleep)
 

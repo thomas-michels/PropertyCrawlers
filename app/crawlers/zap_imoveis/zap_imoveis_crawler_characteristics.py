@@ -10,4 +10,5 @@ class ZapImoveisCrawlerCharacteristics(Crawler):
         super().__init__(conn, redis_conn)
     
     def handle(self, message: EventSchema) -> bool:
+        # _logger.info(f"New property: {raw_property.property_url}")
         return super().handle(message)
