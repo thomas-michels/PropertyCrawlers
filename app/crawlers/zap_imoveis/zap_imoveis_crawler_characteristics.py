@@ -56,13 +56,13 @@ class ZapImoveisCrawlerCharacteristics(Crawler):
 
             property_type = str(data["listing"]["unitTypes"][0]).upper()
 
-            if property_type == "RESIDENTIAL_ALLOTMENT_LAND":
+            if property_type == "RESIDENTIAL_ALLOTMENT_LAND" or property_type == "ALLOTMENT_LAND":
                 property_type = "loteterreno"
 
             elif property_type == "APARTMENT":
                 property_type = "apartamento"
 
-            elif property_type == "HOME":
+            elif property_type == "HOME" or property_type == "FARM":
                 property_type = "casa"
 
             else:
