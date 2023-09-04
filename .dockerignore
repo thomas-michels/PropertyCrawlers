@@ -1,0 +1,16 @@
+.idea/
+*.env
+.__pycache__/.
+/.pytest_cache
+/venv/
+/bin/
+/cd/
+__pycache__
+.vscode
+.mypy_cache
+.coverage
+.DS_Store
+/logs
+coverage.xml
+/.scannerwork
+.pyc

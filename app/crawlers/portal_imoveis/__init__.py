@@ -1,0 +1,3 @@
+from .portal_imoveis_crawler_in import PortalImoveisCrawlerIn
+from .portal_imoveis_crawler_characteristics import PortalImoveisCrawlerCharacteristics
+from .portal_imoveis_extractor import start_portal_imoveis_extractor
