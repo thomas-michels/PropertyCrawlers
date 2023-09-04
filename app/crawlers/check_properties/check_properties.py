@@ -1,5 +1,6 @@
 from app.core.db import DBConnection
 from app.core.configs import get_environment, get_logger
+from app.core.dependencies.redis_client import RedisClient
 from app.core.dependencies.worker.utils.event_schema import EventSchema
 from app.core.dependencies.worker.producer import KombuProducer
 from app.core.dependencies import RedisClient
@@ -14,13 +15,12 @@ _logger = get_logger(__name__)
 
 class CheckProperties(Crawler):
 
-    def __init__(self, conn: DBConnection) -> None:
-        super().__init__(conn)
-        self.__redis_conn = RedisClient()
+    def __init__(self, conn: DBConnection, redis_conn: RedisClient) -> None:
+        super().__init__(conn, redis_conn)
 
     def handle(self, message: EventSchema) -> bool:
         _logger.info("Checking properties")
-        services = PropertyServices(conn=self.conn, redis_conn=self.__redis_conn)
+        services = PropertyServices(conn=self.conn, redis_conn=self.redis_conn)
         if services.is_updating():
             _logger.info("Properties checked")
             return True
@@ -50,6 +50,5 @@ class CheckProperties(Crawler):
                 KombuProducer.send_messages(conn=self.conn, message=event)
 
         services.set_updating(value=0)
-        self.__redis_conn.close()
         _logger.info("Properties checked")
         return True

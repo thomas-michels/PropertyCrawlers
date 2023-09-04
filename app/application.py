@@ -5,6 +5,7 @@ from app.core.dependencies.worker import (
     RegisterQueues,
     start_connection_bus
 )
+from app.core.dependencies.redis_client import RedisClient
 from app.crawlers.check_properties import CheckProperties
 import signal
 
@@ -24,11 +25,13 @@ class Application:
             queues = RegisterQueues.register()
 
             conn = RawPGConnection()
+            redis_conn = RedisClient()
 
-            checker = CheckProperties(conn=conn)
+            checker = CheckProperties(conn=conn, redis_conn=redis_conn)
             checker.handle(message=None)
 
             conn.close()
+            redis_conn.close()
 
             _logger.info("Starting Worker")
 
