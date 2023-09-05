@@ -9,6 +9,7 @@ from app.core.dependencies.worker import KombuProducer
 from time import sleep
 from random import randint
 import requests
+from requests.exceptions import HTTPError
 import pendulum
 
 
@@ -28,10 +29,12 @@ class ZapImoveisCrawlerCharacteristics(Crawler):
 
             data = message.payload.get("data")
             if not data:
-                sleep(randint(5, 10))
-                response = requests.get(url=url)
+                sleep(randint(3, 7))
+                try:
+                    response = requests.get(url=url)
+                    response.raise_for_status()
 
-                if response.status_code > 300:
+                except HTTPError:
                     new_message = EventSchema(
                         id=message.id,
                         origin=message.sent_to,
@@ -41,8 +44,6 @@ class ZapImoveisCrawlerCharacteristics(Crawler):
                         updated_at=datetime.now()
                     )
                     return KombuProducer.send_messages(conn=self.conn, message=new_message)
-                
-                return True
 
             code = message.payload["code"]
 

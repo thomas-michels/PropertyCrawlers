@@ -32,7 +32,7 @@ def start_zap_imoveis_extractor():
 
     with RawPGConnection() as conn:
         while offset <= 10000 or error_count < 5:
-            time_sleep = randint(5, 15)
+            time_sleep = randint(3, 7)
             _logger.info(f"Sleeping: {time_sleep}")
             sleep(time_sleep)
 

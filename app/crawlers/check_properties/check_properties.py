@@ -49,6 +49,5 @@ class CheckProperties(Crawler):
 
                 KombuProducer.send_messages(conn=self.conn, message=event)
 
-        services.set_updating(value=0)
         _logger.info("Properties checked")
         return True

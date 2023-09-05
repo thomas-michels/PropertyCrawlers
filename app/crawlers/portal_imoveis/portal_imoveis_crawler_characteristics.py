@@ -24,7 +24,7 @@ class PortalImoveisCrawlerCharacteristics(Crawler):
     
     def handle(self, message: EventSchema) -> bool:
         try:
-            sleep(randint(2, 7))
+            sleep(randint(2, 5))
             url = message.payload["property_url"]
             company = message.payload["company"]
 
@@ -136,6 +136,9 @@ class PortalImoveisCrawlerCharacteristics(Crawler):
                 street = street.replace("AV ", "")
                 street = street.replace(" r ", "")
                 street = street.replace("rua ", "")
+
+                if street.startswith("r "):
+                    street = street.replace("r ", "", 1)
 
                 string = re.sub(padrao_remover_r, '', street, flags=re.IGNORECASE)
                 string = re.sub(padrao_remover_hifen, '', string)

@@ -1,7 +1,7 @@
 include ./.env
 
 build:
-	docker build -t property_worker --no-cache .
+	docker build -t property_crawlers --no-cache .
 
 run:
-	docker run --env-file .env.container --name property_worker -d --network=propertycrawler_crawler_network property_worker
+	docker run --env-file .env --name property_crawlers -d --network=propertycrawler_crawler_network property_crawlers

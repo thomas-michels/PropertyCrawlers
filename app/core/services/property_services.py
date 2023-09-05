@@ -26,7 +26,7 @@ class PropertyServices:
         return bool(self.__redis_conn.conn.get(url))
     
     def set_updating(self, value: int) -> bool:
-        self.__redis_conn.conn.setex(name="is_updating", value=value, time=300)
+        self.__redis_conn.conn.setex(name="is_updating", value=value, time=3000)
 
     def is_updating(self) -> bool:
         return bool(self.__redis_conn.conn.get("is_updating"))
