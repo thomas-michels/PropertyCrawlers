@@ -1,3 +1,2 @@
 from .zap_imoveis_crawler_in import ZapImoveisCrawlerIn
 from .zap_imoveis_crawler_characteristics import ZapImoveisCrawlerCharacteristics
-from .zap_imoveis_extractor import start_zap_imoveis_extractor

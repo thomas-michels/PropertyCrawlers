@@ -43,11 +43,6 @@ class Environment(BaseSettings):
     ZAP_IMOVEIS_IN_CHANNEL: str
     ZAP_IMOVEIS_CHARACTERISTICS_CHANNEL: str
 
-    # PORTAIS
-    PORTAL_IMOVEIS_URL: str
-    ZAP_IMOVEIS_URL: str
-    ZAP_IMOVEIS_BASE_URL: str
-
     class Config:
         """Load config file"""
 
