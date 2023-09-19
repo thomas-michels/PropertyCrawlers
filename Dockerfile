@@ -2,7 +2,7 @@ FROM python:3.10-alpine
 
 WORKDIR .
 
-COPY ./requirements.txt ./requirements.txt
+COPY ./requirements/prod.txt ./requirements.txt
 
 RUN pip install --upgrade pip \
     && pip install --no-cache-dir --upgrade -r /requirements.txt
