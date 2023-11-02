@@ -11,6 +11,7 @@ from random import randint
 import requests
 from requests.exceptions import HTTPError
 import pendulum
+import re
 
 
 _logger = get_logger(__name__)
@@ -69,10 +70,7 @@ class ZapImoveisCrawlerCharacteristics(Crawler):
             else:
                 property_type = property_type.lower()
 
-            image_url = data["link"].get("href", "").replace("/imovel/", "")
-            
-            if image_url:
-                image_url = f"https://resizedimgs.zapimoveis.com.br/fit-in/800x360/named.images.sp/3cc9c0612d716d8631ffde3f7093852d/{image_url}.jpg"
+            image_url = self.get_image_url(data)
 
             if data["listing"]["address"].get("street"):
                 street = data["listing"]["address"]["street"]
@@ -127,3 +125,24 @@ class ZapImoveisCrawlerCharacteristics(Crawler):
         except Exception as error:
             _logger.error(f"Error: {error}. Data: {message.model_dump_json()}")
             return False
+
+    def get_image_url(self, data) -> str:
+        try:
+            neighbor = data['link']['data']['neighborhood'].lower()
+            neighbor = neighbor.replace(" ", "-")
+
+            image_name = re.sub(r'[^a-zA-Z0-9]+', ' ', data["link"]["name"])
+            image_name = image_name.strip().lower()
+            image_name = image_name.replace(' ', '-')
+            image_name = image_name + f"-no-{neighbor}-{data['link']['data']['city'].lower()}"
+
+            link = data["medias"][0]["url"]
+
+            link = link.replace("{description}", image_name)
+            link = link.replace("{action}", "fit-in")
+            link = link.replace("{width}", "800")
+            image_url = link.replace("{height}", "360")
+            return image_url
+
+        except Exception:
+            return ""
